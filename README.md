@@ -1,5 +1,5 @@
 # memloader ![License](https://img.shields.io/badge/License-GPLv2-blue.svg)
-Parses ini files from sdmc:/memloader and loads/decompresses/boots the appropriate binaries on the AArch64 CPU of the Nintendo Switch. 
+Parses ini files from sdmc:/bootloader/memloader and loads/decompresses/boots the appropriate binaries on the AArch64 CPU of the Nintendo Switch. 
 
 Ini files can be generated from source images using the programs inside tools subdirectory. Currently the tools understand coreboot CBFS images or ELF payloads (like u-boot).
 
