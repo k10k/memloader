@@ -26,7 +26,7 @@
 #include <strings.h>
 #define XVERSION 2
 
-#define INI_ROOT "/memloader"
+#define INI_ROOT "/bootloader/memloader"
 #define INI_ROOT_LEN ARRAY_SIZE(INI_ROOT)-1
 
 static int initialize_mount(FATFS* outFS, u8 devNum)
