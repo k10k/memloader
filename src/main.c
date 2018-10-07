@@ -26,6 +26,9 @@
 #include <strings.h>
 #define XVERSION 2
 
+#define INI_ROOT "/memloader"
+#define INI_ROOT_LEN ARRAY_SIZE(INI_ROOT)-1
+
 static int initialize_mount(FATFS* outFS, u8 devNum)
 {
 	sdmmc_t* currCont = get_controller_for_index(devNum);
@@ -86,7 +89,7 @@ static NOINLINE int display_file_picker(char* outFilenameBuf, size_t* outFilesiz
     DIR dir;
     memset(&dir, 0, sizeof(dir));
 
-    FRESULT res = f_opendir(&dir, "/");
+    FRESULT res = f_opendir(&dir, INI_ROOT);
     if (res == FR_OK) 
     {
         while (res == FR_OK)
@@ -148,10 +151,10 @@ static NOINLINE int display_file_picker(char* outFilenameBuf, size_t* outFilesiz
     }
 
     if (files == NULL)
-        printk("No ini files found in root of sdcard, switching to USB command mode...\n");
+        printk("No ini files found in sdmc:" INI_ROOT ", switching to USB command mode...\n");
     else
     {
-        printk("Choose ini file from sdcard root:\n\n");
+        printk("Choose ini file from sdmc:" INI_ROOT " >\n\n");
         int startRow = video_get_row();
         int startCol = video_get_col();
 
@@ -236,7 +239,9 @@ static NOINLINE int display_file_picker(char* outFilenameBuf, size_t* outFilesiz
                     return 0;
                 else
                 {
-                    memcpy(outFilenameBuf, selectedFile->fileName, strlen(selectedFile->fileName)+1);
+                    memcpy(outFilenameBuf, INI_ROOT, INI_ROOT_LEN);
+                    outFilenameBuf[INI_ROOT_LEN] = '/';
+                    memcpy(outFilenameBuf+INI_ROOT_LEN+1, selectedFile->fileName, strlen(selectedFile->fileName)+1);
                     *outFilesizeBuf = selectedFile->fileSize;
                     return currSelection+1;
                 }
